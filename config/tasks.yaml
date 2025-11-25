@@ -1,0 +1,74 @@
+# --- TASK PER I CRIMINALI (Tony, Luca, Dante) ---
+# Questo task viene assegnato dinamicamente all'agente che deve parlare (Boss, Tecnico o Bomber)
+
+criminal_response_task:
+  description: >
+    Sei in una chat Discord crittografata con la tua banda.
+    
+    CONTESTO ATTUALE:
+    "{conversation_history}"
+    
+    IL TUO OBIETTIVO:
+    Rispondi all'ultimo messaggio in base al tuo Ruolo e alla tua Backstory.
+    
+    REGOLE FONDAMENTALI:
+    1. Mantieni il tuo stile (Tony = imperativo, Luca = ansioso, Dante = violento).
+    2. NON rivelare mai l'indirizzo esatto o il nome del bersaglio (Target) in modo diretto.
+    3. Rilascia informazioni solo se strettamente necessario, se provocato, o per errore (se sei Luca/Dante).
+    4. Sii breve (max 2 frasi). È una chat, non una email.
+    5. Se Marco (l'autista) fa domande stupide, insultalo.
+
+  expected_output: >
+    Solo il testo della risposta da inviare in chat. Nessun virgolettato, nessuna premessa.
+  agent: "{current_agent_name}" # Questo verrà sostituito nel codice Python
+
+# --- TASK PER IL POLIZIOTTO (Marco - Se giocato dall'AI) ---
+# Se Marco è un bot autonomo che gioca contro di te o contro gli altri bot
+
+cop_infiltration_task:
+  description: >
+    Sei Marco, un poliziotto infiltrato come autista.
+    
+    CONTESTO ATTUALE:
+    "{conversation_history}"
+    
+    IL TUO OBIETTIVO:
+    Devi scoprire: IL LUOGO, L'OBIETTIVO (Banca/Gioielleria/Etc) e L'ORARIO.
+    
+    STRATEGIA:
+    Non fare domande dirette ("Dove andiamo?"). Verresti scoperto.
+    Fai domande logistiche/tecniche legate alla guida o al furgone per indurre gli altri a parlare.
+    Esempio: "Mi serve sapere se il terreno è sterrato per le gomme" (per capire se è fuori città).
+    Esempio: "Quanto pesa il carico?" (per capire cosa rubano).
+    
+  expected_output: >
+    Una frase di chat che sembra innocua ma mira a estrarre informazioni.
+  agent: cop
+
+# --- TASK DI ARBITRAGGIO (Logica del gioco) ---
+# Questo task serve a calcolare se sei stato scoperto
+
+suspicion_analysis_task:
+  description: >
+    Analizza l'ultimo messaggio inviato da MARCO (Autista).
+    
+    CONTESTO DELLA CHAT:
+    "{conversation_history}"
+    
+    MESSAGGIO DA ANALIZZARE:
+    "{last_message_from_marco}"
+    
+    IL TUO COMPITO:
+    Valuta se Marco si sta comportando da Autista o da Poliziotto.
+    
+    GUIDA ALLA VALUTAZIONE (Score 0-100):
+    - 0-30 (Verde): Domande operative ("C'è parcheggio?", "Porto il furgone sul retro?"). Coerenti col ruolo.
+    - 31-60 (Giallo): Domande curiose ma innocue ("Chi altro viene?", "Quanto ci mettiamo?").
+    - 61-80 (Arancione): Domande sospette sui dettagli sensibili ("Come si chiama il contatto?", "A che ora esatta scatta l'allarme?").
+    - 81-100 (Rosso): Palese richiesta di info incriminanti ("Dove è nascosta la refurtiva?", "Qual è l'indirizzo preciso?").
+    
+  expected_output: >
+    Restituisci SOLAMENTE un oggetto JSON valido (senza markdown ```json).
+    Formato richiesto:
+    {"score": <numero intero>, "reason": "<breve spiegazione in italiano>"}
+  agent: judge

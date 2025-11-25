@@ -1,10 +1,18 @@
 {
     "boss": {
         "username": "Tony (Il Boss)",
-        "avatar_url": "https://url-immagine-boss.png"
+        "avatar_url": "https://api.dicebear.com/9.x/avataaars/png?seed=Tony&eyebrows=angry&mouth=serious&clothing=blazerAndShirt&facialHair=beardMedium&top=shortFlat"
     },
     "cop": {
-        "username": "Marco (Autista)",
-        "avatar_url": "https://url-immagine-poliziotto.png"
+        "username": "Marco (L'Autista)",
+        "avatar_url": "https://api.dicebear.com/9.x/avataaars/png?seed=Marco&accessories=sunglasses&clothing=hoodie&top=shortWaved&skinColor=light"
+    },
+    "tecnician-thief": {
+        "username": "Luca (Il Tecnico)",
+        "avatar_url": "https://api.dicebear.com/9.x/avataaars/png?seed=Luca&eyebrows=sadConcerned&mouth=concerned&clothing=collarAndSweater&glasses=round&top=curvy"
+    },
+    "bomber-thief": {
+        "username": "Dante (L'Artificiere)",
+        "avatar_url": "https://api.dicebear.com/9.x/avataaars/png?seed=Dante&eyebrows=angry&mouth=grit&facialHair=beardMajestic&clothing=graphicShirt&top=shavedSides&skinColor=tanned"
     }
 }
