@@ -1,0 +1,10 @@
+{
+    "boss": {
+        "username": "Tony (Il Boss)",
+        "avatar_url": "https://url-immagine-boss.png"
+    },
+    "cop": {
+        "username": "Marco (Autista)",
+        "avatar_url": "https://url-immagine-poliziotto.png"
+    }
+}
