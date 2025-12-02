@@ -1,10 +1,11 @@
 import discord
 import os
+import asyncio
 from dotenv import load_dotenv
 
 # Importiamo le nostre funzioni custom
 from src.discord_layer.webhook_mgr import send_as_character
-# from src.game_logic.flow import UndercoverFlow (Decommenta quando hai il flow pronto)
+from src.game_logic.flow import UndercoverFlow
 
 load_dotenv()
 
@@ -15,55 +16,53 @@ WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
 
 # Setup Client
 intents = discord.Intents.default()
-intents.message_content = True # Fondamentale per leggere la chat
+intents.message_content = True 
 client = discord.Client(intents=intents)
+
+# Inizializza il Flow Globale
+GLOBAL_GAME_FLOW = UndercoverFlow()
+
+async def game_loop():
+    """Ciclo principale della conversazione automatica."""
+    await client.wait_until_ready()
+    print("🔄 Avvio ciclo di conversazione automatica...")
+    
+    # Setup iniziale
+    # Simuliamo un messaggio iniziale per far partire il Boss
+    GLOBAL_GAME_FLOW.state.last_message = "Dobbiamo rivedere il piano per stasera. Nessun errore."
+    
+    while not client.is_closed():
+        try:
+            # Eseguiamo il flow (che è sincrono) in un thread separato per non bloccare Discord
+            # kickoff() eseguirà i passaggi definiti in flow.py
+            final_text = await client.loop.run_in_executor(None, GLOBAL_GAME_FLOW.kickoff)
+            
+            # Recupera chi ha parlato
+            speaker = GLOBAL_GAME_FLOW.state.current_speaker
+            
+            # Invia su Discord
+            await send_as_character(WEBHOOK_URL, speaker, final_text)
+            
+            # Debug log
+            print(f"🗣️ {speaker}: {final_text}")
+            
+            # Pausa realistica tra i messaggi
+            await asyncio.sleep(10)
+
+        except Exception as e:
+            print(f"❌ Errore nel game loop: {e}")
+            await asyncio.sleep(5) # Attendi prima di riprovare
 
 @client.event
 async def on_ready():
     print(f'✅ Bot avviato come {client.user}')
     print(f'   Ascolto sul canale ID: {GAME_CHANNEL_ID}')
-    print(f'   Debug sul canale ID:   {DEBUG_CHANNEL_ID}')
+    
+    # Avvia il loop in background
+    client.loop.create_task(game_loop())
 
 @client.event
 async def on_message(message):
-    # 1. Ignora i messaggi del bot stesso o dei webhook
-    if message.author.bot or message.webhook_id:
-        return
-
-    # 2. Ignora i messaggi che non sono nel canale di gioco
-    if message.channel.id != GAME_CHANNEL_ID:
-        return
-
-    print(f"📩 Messaggio ricevuto da {message.author}: {message.content}")
-
-    # --- QUI INIZIA LA LOGICA AI ---
-    
-    # A. Eseguiamo l'analisi del Giudice (Simulazione)
-    # In futuro: judge_result = flow.execute_judge(message.content)
-    suspicion_score = 45 # Valore finto per test
-    suspicion_reason = "Domanda tecnica sul furgone, ma accettabile."
-
-    # B. Invio Report al Canale Debug (Solo per te)
-    debug_channel = client.get_channel(DEBUG_CHANNEL_ID)
-    if debug_channel:
-        color = discord.Color.green() if suspicion_score < 60 else discord.Color.red()
-        embed = discord.Embed(title="🕵️ Analisi 'L'Ombra'", color=color)
-        embed.add_field(name="Input Utente", value=message.content, inline=False)
-        embed.add_field(name="Sospetto", value=f"{suspicion_score}/100", inline=True)
-        embed.add_field(name="Motivo", value=suspicion_reason, inline=False)
-        await debug_channel.send(embed=embed)
-    
-    # C. Gestione Risposta Pubblica (Game Over o Risposta Criminale)
-    if suspicion_score > 80:
-        # GAME OVER
-        await send_as_character(WEBHOOK_URL, "boss", "Hai fatto troppe domande. Sei fuori! 🔫")
-    else:
-        # IL GIOCO CONTINUA
-        # In futuro: response_data = flow.execute_crew(message.content)
-        
-        # Simuliamo che risponda Dante (il nuovo agente armato)
-        fake_agent_response = "Il furgone regge, ma vedi di non farci saltare sulle buche o il C4 esplode."
-        agent_speaking = "bomber-thief" 
-
-        # Usiamo il Webhook per rispondere nel canale pubblico
-        await send_as_character(WEBHOOK_URL, agent_speaking, fake_agent_response)
+    # Ignoriamo tutto, il gioco è automatico.
+    # Potremmo aggiungere comandi admin qui se necessario.
+    pass

@@ -16,4 +16,31 @@ def create_cop_agent():
         llm=llm,
         verbose=True
     )
-# ... idem per gli altri agenti
+
+def create_boss_agent():
+    return Agent(
+        config=agents_config['boss'],
+        llm=llm,
+        verbose=True
+    )
+
+def create_tecnician_thief_agent():
+    return Agent(
+        config=agents_config['tecnician-thief'],
+        llm=llm,
+        verbose=True
+    )
+
+def create_bomber_thief_agent():
+    return Agent(
+        config=agents_config['bomber-thief'],
+        llm=llm,
+        verbose=True
+    )
+    
+def create_judge_agent():
+    return Agent(
+        config=agents_config['judge'],
+        llm=llm,
+        verbose=True
+    )
