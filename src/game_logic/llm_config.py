@@ -1,10 +1,10 @@
-from langchain_google_genai import ChatGoogleGenerativeAI
+from crewai import LLM
 import os
 
 def get_gemini_llm():
-    return ChatGoogleGenerativeAI(
-        model="gemini-2.5-flash-lite", # Sostituisci con il nome modello esatto
+    return LLM(
+        model="gemini/gemini-1.5-flash",
         verbose=True,
         temperature=0.7,
-        google_api_key=os.getenv("GOOGLE_API_KEY")
+        api_key=os.getenv("GOOGLE_API_KEY")
     )
