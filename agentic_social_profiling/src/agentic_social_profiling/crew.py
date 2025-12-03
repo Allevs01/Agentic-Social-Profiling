@@ -57,16 +57,16 @@ class AgenticSocialProfiling():
     # https://docs.crewai.com/concepts/tasks#overview-of-a-task
     
     @task
-    def cop_infiltration_task(self) -> Task:
+    def boss_opening_task(self) -> Task:
         return Task(
-            config=self.tasks_config['cop_infiltration_task'], # type: ignore[index]
+            config=self.tasks_config['boss_opening_task'], # type: ignore[index]
             callback=discord_logger.task_callback       
         )
     
     @task
-    def boss_response_task(self) -> Task:
+    def cop_presentation_task(self) -> Task:
         return Task(
-            config=self.tasks_config['boss_response_task'], # type: ignore[index]
+            config=self.tasks_config['cop_presentation_task'], # type: ignore[index]
             callback=discord_logger.task_callback
         )
     
@@ -78,9 +78,16 @@ class AgenticSocialProfiling():
         )
     
     @task
-    def bomber_thief_response_task(self) -> Task:
+    def cop_questioning_task(self) -> Task:
         return Task(
-            config=self.tasks_config['bomber_thief_response_task'], # type: ignore[index]
+            config=self.tasks_config['cop_questioning_task'], # type: ignore[index]
+            callback=discord_logger.task_callback
+        )
+    
+    @task
+    def boss_observation_task(self) -> Task:
+        return Task(
+            config=self.tasks_config['boss_observation_task'], # type: ignore[index]
             callback=discord_logger.task_callback 
         )
     
@@ -101,7 +108,7 @@ class AgenticSocialProfiling():
         return Crew(
             agents=self.agents, # Automatically created by the @agent decorator
             tasks=self.tasks, # Automatically created by the @task decorator
-            process=Process.sequential
+            process=Process.sequential,
     
             # process=Process.hierarchical, # In case you wanna use that instead https://docs.crewai.com/how-to/Hierarchical/
         )

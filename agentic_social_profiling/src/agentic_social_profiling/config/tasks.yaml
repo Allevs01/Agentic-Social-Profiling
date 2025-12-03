@@ -1,74 +1,54 @@
-# --- TASK PER I CRIMINALI (Tony, Luca, Dante) ---
-boss_response_task:
+boss_opening_task:
   description: >
-    Sei in una chat Discord crittografata con la tua banda.
-    
-    IL TUO OBIETTIVO:
-    Rispondi all'ultimo messaggio in base al tuo Ruolo e alla tua Backstory.
-    
-    REGOLE FONDAMENTALI:
-    1. Mantieni il tuo stile imperativo.
-    2. NON rivelare mai l'indirizzo esatto o il nome del bersaglio (Target) in modo diretto.
-    3. Rilascia informazioni solo se strettamente necessario, se provocato.
-    4. Sii breve (max 2 frasi). È una chat, non una email.
-    5. Se Marco (l'autista) fa domande stupide, insultalo.
+    Il Boss riunisce il team per la prima volta con il nuovo autista.
+    Introduce brevemente l'autista al gruppo ma senza rivelare dettagli.
+    Mantieni un tono professionale ma cauto.
 
   expected_output: >
-    Solo il testo della risposta da inviare in chat. Nessun virgolettato, nessuna premessa.
+    Un breve discorso di benvenuto che non rivela informazioni critiche
   agent: boss
+
+cop_presentation_task:
+  description: >
+    Come nuovo autista, presentati al team.
+    Sii cortese e professionale.
+    Fai una domanda generale sulla mission che non sembri troppo curiosa.
+    Esempio: chiedere quanto tempo durerà l'operazione in modo casuale.
+
+  expected_output: >
+    Una presentazione naturale con una domanda strategica
+  agent: cop
 
 tecnician_thief_response_task:
   description: >
-    Sei in una chat Discord crittografata con la tua banda.
-    
-    IL TUO OBIETTIVO:
-    Rispondi all'ultimo messaggio in base al tuo Ruolo e alla tua Backstory.
-    
-    REGOLE FONDAMENTALI:
-    1. Mantieni il tuo stile ansioso.
-    2. NON rivelare mai l'indirizzo esatto o il nome del bersaglio (Target) in modo diretto.
-    3. Rilascia informazioni solo se strettamente necessario, se provocato, o per errore.
-    4. Sii breve (max 2 frasi). È una chat, non una email.
-    5. Se Marco (l'autista) fa domande stupide, insultalo.
+    L'esperto di cassaforti risponde alle domande dell'autista.
+    Fornisci informazioni vaghe ma che sembrino credibili.
+    Osserva attentamente come reagisce il nuovo autista.
 
   expected_output: >
-    Solo il testo della risposta da inviare in chat. Nessun virgolettato, nessuna premessa.
+    Una risposta cauta ma che mantiene il decoro professionale
   agent: tecnician_thief
 
-bomber_thief_response_task:
+cop_questioning_task:
   description: >
-    Sei in una chat Discord crittografata con la tua banda.
-    
-    IL TUO OBIETTIVO:
-    Rispondi all'ultimo messaggio in base al tuo Ruolo e alla tua Backstory.
-    
-    REGOLE FONDAMENTALI:
-    1. Mantieni il tuo stile violento.
-    2. NON rivelare mai l'indirizzo esatto o il nome del bersaglio (Target) in modo diretto.
-    3. Rilascia informazioni solo se strettamente necessario, se provocato, o per errore.
-    4. Sii breve (max 2 frasi). È una chat, non una email.
-    5. Se Marco (l'autista) fa domande stupide, insultalo.
+    Continua con domande più specifiche sulla tempistica e le risorse necessarie.
+    Fai domande che sembrino ragionevoli per un autista, non troppo tecniche.
+    Cerca di scoprire: ubicazione, timing, tipo di cassaforte.
 
   expected_output: >
-    Solo il testo della risposta da inviare in chat. Nessun virgolettato, nessuna premessa.
-  agent: bomber_thief
-
-# TASK PER IL POLIZIOTTO
-cop_infiltration_task:
-  description: >
-    Sei Marco, un poliziotto infiltrato come autista.
-    
-    IL TUO OBIETTIVO:
-    Devi scoprire: IL LUOGO, L'OBIETTIVO (Banca/Gioielleria/Etc) e L'ORARIO.
-    
-    STRATEGIA:
-    Non fare domande dirette ("Dove andiamo?"). Verresti scoperto.
-    Fai domande logistiche/tecniche legate alla guida o al furgone per indurre gli altri a parlare.
-    Esempio: "Mi serve sapere se il terreno è sterrato per le gomme" (per capire se è fuori città).
-    Esempio: "Quanto pesa il carico?" (per capire cosa rubano).
-  expected_output: >
-    Una frase di chat che sembra innocua ma mira a estrarre informazioni.
+    Domande strategiche che non scatenino allarmi
   agent: cop
+
+
+boss_observation_task:
+  description: >
+    Osserva l'interazione tra il tuo team e il nuovo autista.
+    Senti che c'è qualcosa di strano? È troppo curioso?
+    Comunica i tuoi sospetti (o la loro assenza) al team.
+
+  expected_output: >
+    Domande strategiche che non scatenino allarmi
+  agent: boss
 
 # --- TASK DI ARBITRAGGIO (Logica del gioco) ---
 # Questo task serve a calcolare se sei stato scoperto

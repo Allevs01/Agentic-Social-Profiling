@@ -18,16 +18,14 @@ def run():
     Run the crew.
     """
     inputs = {
-        'topic': 'Progettare una rapina',
-        'current_year': str(datetime.now().year)
+       
     }
 
-    while 1==1:
-        try:
-            AgenticSocialProfiling().crew().kickoff(inputs=inputs)
-        except Exception as e:
-            raise Exception(f"An error occurred while running the crew: {e}")
-        time.sleep(10)
+    try:
+        AgenticSocialProfiling().crew().kickoff(inputs=inputs)
+    except Exception as e:
+        raise Exception(f"An error occurred while running the crew: {e}")
+    time.sleep(4)
 
 def train():
     """
